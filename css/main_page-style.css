@@ -1,0 +1,247 @@
+@font-face {
+    font-family: "Aller";
+    src: url("fonts/AllerDisplay_Std_Rg.ttf") format("ttf"),
+    url("fonts/Aller_Std_Rg.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "Helvetica";
+    src: url("fonts/helvetica_regular.otf") format("otf");
+}
+
+@font-face {
+    font-family: "Lato";
+    src: url("fonts/Lato-Regular.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "Montserrat Alternates"; 
+    src: url("fonts/MontserratAlternates-Medium.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "Raleway"; 
+    src: url("fonts/Raleway-Medium.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url("fonts/Ubuntu-Regular.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("fonts/JetBrainsMono-Regular.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    src: url("fonts/RobotoMono-Regular.ttf") format("ttf");
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    font-family: "Aller";
+    background: url("../pictures/bliss.jpg") center center no-repeat fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: rgb(40, 40, 40);
+    font-family: "Roboto Mono";
+    border-top: 3px solid rgb(37, 99, 255);
+    border-bottom: 3px solid rgb(37, 99, 255);
+    box-shadow: 0 5px 10px rgb(0, 0, 0, 0.7);
+    font-size: 18pt;
+    color: #6dceff!important;
+    transition: all .4s;
+}
+
+.main-wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+.projects-bar, .tasks-bar {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background-size: cover;
+}
+
+.projects-bar p, .tasks-bar p {
+    font-family: "Raleway";
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.projects-bar {
+    background-image: url("../pictures/frame0.png");
+    background-repeat: no-repeat;
+    border-right: 2px solid;
+}
+
+.tasks-bar {
+    background-image: url("../pictures/frame1.png");
+    background-repeat: no-repeat;
+    border-left: 2px solid;
+}
+
+.projects-tasks_wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+input {
+    font-family: monospace;
+    width: 200px;
+    margin: 10px 0 0 20px;
+}
+
+#tasks-filter {
+    user-select: none;
+    font-family: "Montserrat Alternates";
+    font-style: italic;
+    font-size: 20px;
+}
+
+.tasks-filter ul {
+    align-items: flex-start;
+    margin: 5px 0 0 20px;
+}
+
+.tasks-filter ul li, .tasks-filter ul li a {
+    text-decoration: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Lato";
+    font-weight: 700;
+    color: rgb(0, 255, 247);
+}
+
+.tasks-filter ul li a:hover {
+    color: rgb(0, 0, 0);
+}
+
+.tasks-filter ul li a:active {
+    color: rgb(32, 118, 255);
+}
+
+label {
+    margin-left: 15px;
+}
+
+.work-buttons {
+    align-self: center;
+    margin-top: 25px;
+}
+
+.create-new-task-btn, .create-new-project-btn {
+    user-select: none;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 5%;
+    padding: 9px 20px;
+    margin-top: 10px;
+    text-decoration: none;
+    min-width: 100px;
+    text-align: center;
+
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    transition: all .1s;
+}
+
+.create-new-task-btn:hover, .create-new-project-btn:hover {
+    cursor: pointer;
+}
+
+.create-new-task-btn:hover {
+    background: #0943A4;
+}
+
+.create-new-project-btn:hover {
+    background: #495DCE;
+}
+
+.create-new-task-btn:active {
+    background: #090ca4;
+}
+
+.create-new-project-btn:active {
+    background: rgb(45, 36, 226);
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.tasks_wrapper {
+    margin-right: 40px;
+}
+
+.projects_wrapper {
+    margin-left: 40px;
+}
+
+ul li, p {
+    font-family: 'Trebuchet MS';
+}
+
+p {
+    font-size: 26pt;
+    font-weight: bold;
+    color: #fff;
+    margin: 15px 0 0 20px;
+}
+
+.projects-bar p {
+    color: #000;
+}
+
+ul li .task p {
+    color: #000;
+}
+
+.logout {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-55%);
+    text-decoration: none;
+    color: rgb(244, 21, 65);
+    transition: .3s;
+}
+
+.logout:hover {
+    color: rgb(200, 14, 51);
+}
+
+.logout:active {
+    color: rgb(158, 9, 39);
+    transition: .2s;
+}
