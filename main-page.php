@@ -2,6 +2,11 @@
 
 $filters = [
     [
+        'text' => 'All',
+        'tab' => 'all',
+        'url' => 'http://localhost/main-page.php?tab=all'
+    ],
+    [
         'text' => 'For today',
         'tab' => 'today',
         'url' => 'http://localhost/main-page.php?tab=today'
@@ -15,42 +20,27 @@ $filters = [
         'text' => 'Expired',
         'tab' => 'expired',
         'url' => 'http://localhost/main-page.php?tab=expired'
-    ],
-    [
-        'text' => 'Completed',
-        'tab' => 'completed',
-        'url' => 'http://localhost/main-page.php?tab=completed'
     ]
 ];
 
 require_once('init.php');
 
-$sql = 'SELECT * FROM `project`';
-$project_result = mysqli_query($mysqli, $sql);
+$user_id = intval($_SESSION['user']['id']);
+$project_id = isset($_GET['project']) ? intval($_GET['project']) : null;
+$tab = isset($_GET['tab']) ? mysqli_real_escape_string($mysqli, $_GET['tab']) : null;
 
-$sql = 'SELECT * FROM `task`';
-$task_result = mysqli_query($mysqli, $sql);
+$projects = get_user_projects($mysqli, $user_id);
+$tasks = get_user_tasks($mysqli, $user_id, $project_id, $tab);
 
-$projects = [];
-$tasks = [];
-
-while ($project = mysqli_fetch_assoc($project_result)) {
-    $projects[] = $project;
-}
-
-while ($task = mysqli_fetch_assoc($task_result)) {
-    $tasks[] = $task;
-}
-
-$page_content = includeTemplate('main.php', [
+$page_content = include_template('main.php', [
     'tasks' => $tasks,
     'projects' => $projects,
     'filters' => $filters
 ]);
 
-$page_header = includeTemplate('layouts\header.php');
+$page_header = include_template('layouts\header.php');
 
-$page_layout = includeTemplate('layouts\main-layout.php', [
+$page_layout = include_template('layouts\main-layout.php', [
     'page_content' => $page_content,
     'page_header' => $page_header,
     'css_file' => 'css\main_page-style.css',

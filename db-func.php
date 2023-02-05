@@ -14,7 +14,8 @@ function create_user(mysqli $mysqli, array $data): bool
     $sql = "INSERT INTO `user` (login, email, password_hash) VALUES ($data)";
 
     return mysqli_query($mysqli, $sql);
-};
+}
+
 
 function get_user_by_login(mysqli $mysqli, string $login): ?array
 {
@@ -28,6 +29,7 @@ function get_user_by_login(mysqli $mysqli, string $login): ?array
     return mysqli_fetch_assoc($result);
 }
 
+
 function is_login_exist(mysqli $mysqli, string $login): bool
 {
     $login = mysqli_real_escape_string($mysqli, $login);
@@ -36,6 +38,7 @@ function is_login_exist(mysqli $mysqli, string $login): bool
     
     return boolval(mysqli_fetch_assoc($result));
 }
+
 
 function is_email_exist(mysqli $mysqli, string $email): bool
 {
@@ -46,6 +49,7 @@ function is_email_exist(mysqli $mysqli, string $email): bool
     return boolval(mysqli_fetch_assoc($result));
 }
 
+
 function create_project(mysqli $mysqli, string $project, int $user_id): bool
 {
     $project = mysqli_real_escape_string($mysqli, $project);
@@ -54,31 +58,50 @@ function create_project(mysqli $mysqli, string $project, int $user_id): bool
     return mysqli_query($mysqli, $sql);
 }
 
-function create_task(mysqli $mysqli, string $task, int $user_id): bool
-{
-    $task = mysqli_real_escape_string($mysqli, $task);
-    $sql = "INSERT INTO `project` (name, user_id) VALUES ('$task', $user_id)";
 
-    return mysqli_query($mysqli, $sql);
-}
-
-function is_project_exist(mysqli $mysqli, string $project, int $user_id): bool
+function is_project_exist_by_id(mysqli $mysqli, int $project_id, int $user_id): bool
 {
-    $project = mysqli_real_escape_string($mysqli, $project);
-    $sql = "SELECT * FROM `project` WHERE `name` = '{$project}' AND `user_id` = '{$user_id}'";
+    $sql = "SELECT * FROM `project` WHERE `id` = {$project_id} AND `user_id` = {$user_id}";
     $result = mysqli_query($mysqli, $sql);
     
     return boolval(mysqli_fetch_assoc($result));
 }
 
-// function is_task_exist(mysqli $mysqli, string $task, int $user_id, int $project_id): bool
-// {
-//     $task = mysqli_real_escape_string($mysqli, $task);
-//     $sql = "SELECT * FROM `project` WHERE `name` = '{$task}' AND `user_id` = '{$user_id}' AND `project_id` = '{$project_id}'";
-//     $result = mysqli_query($mysqli, $sql);
+function is_project_exist_by_name(mysqli $mysqli, string $project_name, int $user_id): bool
+{
+    $project_name = mysqli_real_escape_string($mysqli, $project_name);
+    $sql = "SELECT * FROM `project` WHERE `name` = '{$project_name}' AND `user_id` = {$user_id}";
 
-//     return boolval(mysqli_fetch_assoc($result));
-// }
+    $result = mysqli_query($mysqli, $sql);
+    
+    return boolval(mysqli_fetch_assoc($result));
+}
+
+
+function create_task(mysqli $mysqli, string $task_name, int $user_id, int $project_id, ?string $deadline): bool
+{
+    $task_name = mysqli_real_escape_string($mysqli, $task_name);
+    
+    if (is_string($deadline)) {
+        $deadline = mysqli_real_escape_string($mysqli, $deadline);
+        $sql = "INSERT INTO `task` (name, user_id, project_id, deadline) VALUES ('$task_name', $user_id, $project_id, '$deadline')";
+    } else {
+        $sql = "INSERT INTO `task` (name, user_id, project_id, deadline) VALUES ('$task_name', $user_id, $project_id, null)";
+    }
+
+    return mysqli_query($mysqli, $sql);
+}
+
+
+function is_task_exist(mysqli $mysqli, string $task, int $user_id): bool
+{
+    $task = mysqli_real_escape_string($mysqli, $task);
+    $sql = "SELECT * FROM `task` WHERE `name` = '{$task}' AND `user_id` = {$user_id}";
+    $result = mysqli_query($mysqli, $sql);
+
+    return boolval(mysqli_fetch_assoc($result));
+}
+
 
 function get_user_projects(mysqli $mysqli, int $user_id): array
 {
@@ -89,23 +112,55 @@ function get_user_projects(mysqli $mysqli, int $user_id): array
     $result = mysqli_query($mysqli, $sql);
     
     while ($project = mysqli_fetch_assoc($result)) {
-        $projects = $project;
+        $projects[] = $project;
     };
     
     return $projects;
-};
+}
 
-function get_user_tasks(mysqli $mysqli, int $user_id): array
+
+function get_user_tasks(mysqli $mysqli, int $user_id, ?int $project_id = null, ?string $tab = null): array
 {
     $tasks = [];
     
     $user_id = intval($user_id);
-    $sql = "SELECT * FROM `task` WHERE `user_id` = {$user_id}";
+    $sql = "
+        SELECT t.name, t.dt_create, t.user_id, t.project_id, t.deadline, tf.path AS file_path
+        FROM task t
+        LEFT JOIN task_file tf ON tf.task_id = t.id
+        WHERE t.user_id = {$user_id}
+    ";
+
+    if (isset($project_id)) {
+        $sql .= " AND t.project_id = {$project_id}";
+    }
+
+    if (isset($tab)) {
+        switch ($tab) {
+            case 'today':
+                $sql .= " AND t.deadline = CURDATE()";
+                break;
+            case 'tomorrow':
+                $sql .= " AND t.deadline = CURDATE() + INTERVAL 1 DAY";
+                break;
+            case 'expired':
+                $sql .= " AND t.deadline < CURDATE()";
+                break;
+        }
+    }
+
     $result = mysqli_query($mysqli, $sql);
-    
     while ($task = mysqli_fetch_assoc($result)) {
-        $tasks = $task;
-    };
-    
+        $tasks[] = $task;
+    }
+
     return $tasks;
-};
+}
+
+function create_task_file(mysqli $mysqli, string $path, int $task_id): bool
+{
+    $path = mysqli_real_escape_string($mysqli, $path);
+    $sql = "INSERT INTO `task_file` (path, task_id) VALUES ('$path', $task_id)";
+
+    return mysqli_query($mysqli, $sql);
+}

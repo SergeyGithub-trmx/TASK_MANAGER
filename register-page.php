@@ -37,13 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$page_content = includeTemplate('register.php', [
+$page_content = include_template('register.php', [
     'errors' => $errors
 ]);
 
-$page_header = includeTemplate('layouts\header.php');
+$page_header = include_template('layouts\header.php');
 
-$page_layout = includeTemplate('layouts\main-layout.php', [
+$page_layout = include_template('layouts\main-layout.php', [
     'page_content' => $page_content,
     'page_header' => $page_header,
     'css_file' => 'css\login-register_page-style.css',
