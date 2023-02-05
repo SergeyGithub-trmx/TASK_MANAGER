@@ -5,6 +5,8 @@
 
 ?>
 
+<div class="alpha-container"></div>
+
 <div class="registration-block">
     <form method="post" action="">
         <h2 class="text-center">PROJECT</h3>
@@ -19,7 +21,7 @@
             >
 
             <?php if (isset($errors[$input_name])): ?>
-                <p style="color: red; font-weight: bold; text-align: center; margin: -20px 0 20px 0;"><?= $errors[$input_name] ?></p>
+                <p style="color: red; font-weight: bold; text-align: center; margin: -20px 0 20px 0"><?= $errors[$input_name] ?></p>
             <?php endif; ?>
 
         </div>
@@ -29,7 +31,7 @@
                 class="btn btn-primary btn-block log-in"
                 type="submit"
             >Add</button>
-        </div>
+        </div> 
 
     </form>
 </div>
