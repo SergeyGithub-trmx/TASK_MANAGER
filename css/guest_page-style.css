@@ -1,27 +1,27 @@
 @font-face {
     font-family: "Aller";
     src: url("fonts/AllerDisplay_Std_Rg.ttf") format("ttf"),
-    url("fonts/Aller_Std_Rg.ttf") format("ttf");
+    url("fonts/Aller_Std_Rg.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("fonts/Lato-Regular.ttf") format("ttf");
+    src: url("fonts/Lato-Regular.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "Ubuntu";
-    src: url("fonts/Ubuntu-Regular.ttf") format("ttf");
+    src: url("fonts/Ubuntu-Regular.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "JetBrains Mono";
-    src: url("fonts/JetBrainsMono-Regular.ttf") format("ttf");
+    src: url("fonts/JetBrainsMono-Regular.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "Roboto Mono";
-    src: url("fonts/RobotoMono-Regular.ttf") format("ttf");
+    src: url("fonts/RobotoMono-Regular.ttf") format("ttf")
 }
 
 body {
@@ -32,7 +32,7 @@ body {
     height: 100vh;
     font-family: "Aller";
     background-color: rgb(226, 255, 225);
-    overflow: hidden;
+    overflow: hidden
 }
 
 header {
@@ -49,7 +49,7 @@ header {
     font-size: 18pt;
     color:#4bff3b!important;
     color: rgb(21, 50, 75);
-    transition: all .4s;
+    transition: all .4s
 }
 
 h1 {
@@ -59,13 +59,13 @@ h1 {
         1px 1px white,
         2px 2px rgb(110, 110, 110);
     color: #111;
-    transition: all 0.4s;
+    transition: all 0.4s
 }
 
 .auth-buttons {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: flex-end
 }
 
 .login-btn, .register-btn {
@@ -77,43 +77,43 @@ h1 {
     text-align: center;
 
     font-family: inherit;
-    color: #fff;
+    color: #fff
 }
 
 .login-btn:hover, .register-btn:hover {
     cursor: pointer;
     background: #1daa29;
-    box-shadow: 0 0 0 3px #acf0ae;
+    box-shadow: 0 0 0 3px #acf0ae
 }
 
 .login-btn:active, .register-btn:active {
-    background: #1da000;
+    background: #1da000
 }
 
 .login-btn {
-    margin-right: 10px;
+    margin-right: 10px
 }
 
 .main-container {
     display: flex;
-    justify-content: center;
+    justify-content: center
 }
 
 .manager-info {
-    width: 300px;
+    width: 300px
 }
 
 p {
     font-family: "Ubuntu";
     font-size: 28pt;
     color: #222;
-    margin: 35px 0 0 20px;
+    margin: 35px 0 0 20px
 }
 
 .manager-desc {
     font-family: "Lato";
     font-size: 24pt;
-    width: 500px;
+    width: 500px
 }
 
 .tostart {
@@ -121,5 +121,5 @@ p {
     font-family: "Roboto Mono";
     font-size: 22px;
     margin-top: 95px;
-    text-decoration: underline;
+    text-decoration: underline
 }

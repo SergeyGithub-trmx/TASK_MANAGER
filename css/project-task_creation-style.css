@@ -1,0 +1,96 @@
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    font-family: "Tahoma";
+    background: url("../pictures/bliss.jpg") center center no-repeat fixed;
+    background-size: cover
+}
+
+.alpha-container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1
+}
+
+.registration-block {
+    padding: 50px 0;
+    z-index: 100
+}
+
+.registration-block form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px;
+    padding: 50px 50px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 15px rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255)
+}
+
+.registration-block form h2 {
+    font-weight: bold;
+    margin-bottom: 30px
+}
+
+.registration-block .form-group {
+    text-align: center
+}
+
+.registration-block .item {
+    border-radius: 10px;
+    margin-bottom: 25px;
+    padding: 10px 20px
+}
+
+.registration-block .create-account, .log-in {
+    user-select: none;
+    border: none;
+    border-radius: 10%;
+    background: #40c05c;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    min-width: 100px;
+    text-align: center;
+
+    font-family: "Ubuntu";
+    font-size: 18px;
+    color: #fff
+}
+
+.registration-block .create-account:hover, .log-in:hover {
+    cursor: pointer;
+    background: #23c030;
+    box-shadow: 0 0 0 3px #acf0ae
+}
+
+.registration-block .create-account:active, .log-in:active {
+    background: #23b502
+}
+
+p {
+    margin-top: 14px
+}
+
+.horizontal-block {
+    display: flex
+}
+
+.project-selection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 50px
+}
+
+.btn {
+    margin-top: 30px
+}

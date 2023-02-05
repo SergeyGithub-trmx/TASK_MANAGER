@@ -1,27 +1,27 @@
 @font-face {
     font-family: "Aller";
     src: url("fonts/AllerDisplay_Std_Rg.ttf") format("ttf"),
-    url("fonts/Aller_Std_Rg.ttf") format("ttf");
+    url("fonts/Aller_Std_Rg.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("fonts/Lato-Regular.ttf") format("ttf");
+    src: url("fonts/Lato-Regular.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "Ubuntu";
-    src: url("fonts/Ubuntu-Regular.ttf") format("ttf");
+    src: url("fonts/Ubuntu-Regular.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "JetBrains Mono";
-    src: url("fonts/JetBrainsMono-Regular.ttf") format("ttf");
+    src: url("fonts/JetBrainsMono-Regular.ttf") format("ttf")
 }
 
 @font-face {
     font-family: "Roboto Mono";
-    src: url("fonts/RobotoMono-Regular.ttf") format("ttf");
+    src: url("fonts/RobotoMono-Regular.ttf") format("ttf")
 }
 
 body {
@@ -32,7 +32,7 @@ body {
     height: 100vh;
     font-family: "Aller";
     background-color: rgb(225, 241, 255);
-    overflow: hidden;
+    overflow: hidden
 }
 
 header {
@@ -49,11 +49,11 @@ header {
     font-size: 18pt;
     color:#3bffef!important;
     color: rgb(21, 50, 75);
-    transition: all .4s;
+    transition: all .4s
 }
 
 .registration-block {
-    padding: 50px 0;
+    padding: 50px 0
 }
 
 .registration-block form {
@@ -65,18 +65,18 @@ header {
     padding: 50px 70px;
     border-radius: 10px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
+    background-color: #fff
 }
 
 .registration-block form h2 {
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 30px
 }
 
 .registration-block .item {
     border-radius: 10px;
     margin-bottom: 25px;
-    padding: 10px 20px;
+    padding: 10px 20px
 }
 
 .registration-block .create-account, .log-in {
@@ -91,22 +91,22 @@ header {
 
     font-family: "Ubuntu";
     font-size: 18px;
-    color: #fff;
+    color: #fff
 }
 
 .registration-block .create-account:hover, .log-in:hover {
     cursor: pointer;
     background: #1daa29;
-    box-shadow: 0 0 0 3px #acf0ae;
+    box-shadow: 0 0 0 3px #acf0ae
 }
 
 .registration-block .create-account:active, .log-in:active {
-    background: #1da000;
+    background: #1da000
 }
 
 .account-existed-check {
     font-family: "Lato";
-    font-size: 12pt;
+    font-size: 12pt
 }
 
 a {
@@ -114,17 +114,17 @@ a {
     font-size: 11pt;
     font-weight: 700;
     text-decoration: none;
-    color: rgb(24, 197, 188);
+    color: rgb(24, 197, 188)
 }
 
 a:hover {
-    color: rgb(35, 170, 163);
+    color: rgb(35, 170, 163)
 }
 
 a:active {
-    color: rgb(29, 133, 127);
+    color: rgb(29, 133, 127)
 }
 
 p {
-    margin: 0;
+    margin: 0
 }
