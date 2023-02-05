@@ -1,6 +1,10 @@
+<?php 
+
+$classname = isset($_GET['project']) && $_GET['project'] === $project['id'] ? 'project--active' : '';
+
+?>
 <li>
-    <div class="task">
-        <h3><?= htmlspecialchars($project['name']) ?></h3>
-        <p><?= htmlspecialchars($project['dt_create']) ?></p>
+    <div class="project <?= $classname ?>">
+        <a href="/main-page.php?project=<?= htmlspecialchars($project['id']) . $tab ?>"><?= htmlspecialchars($project['name']) ?></a>
     </div>
 </li>
