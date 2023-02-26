@@ -9,10 +9,8 @@
     </head>
     <body>
 
-        <?php if (isset($page_header)): ?>
-            <?= $page_header ?>
-        <?php endif; ?>
-
+        <?= $page_header ?? '' ?>
         <?= $page_content ?>
+
     </body>
 </html>
