@@ -4,5 +4,5 @@ session_start();
 
 $_SESSION = [];
 
-header('Location: guest-page.php');
+header('Location: index.php');
 exit;

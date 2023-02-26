@@ -16,11 +16,10 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $task_name = trim($_POST[INPUT_NAME] ?? '');
     $project_id = intval($_POST['project'] ?? 0);
-    $deadline = is_null($_POST['deadline']) ? null : trim($_POST['deadline']);
+    $deadline = (is_null($_POST['deadline']) || mb_strlen($_POST['deadline']) === 0) ? null : trim($_POST['deadline']);
 
-    if (mb_strlen($task_name) === 0) {
-        $errors[INPUT_NAME] = 'Incorrect task name.';
-    } else if (is_task_exist($mysqli, $task_name, $user_id)) {
+    $errors[INPUT_NAME] = required($task_name);
+    if (is_task_exist_by_name($mysqli, $task_name, $user_id)) {
         $errors[INPUT_NAME] = 'This task already exists.';
     }
     
@@ -32,9 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['deadline'] = 'Incorrect date format.';
     }
 
-    if (empty($errors)) {
+    if (empty(array_filter($errors))) {
         if (create_task($mysqli, $task_name, $user_id, $project_id, $deadline)) {
-            if (isset($_FILES['task-file']['tmp_name'])) {
+            
+            if (!empty($_FILES['task-file']['tmp_name'])) {
                 $file_name = uniqid() . '_' . str_replace('_', '-', $_FILES['task-file']['name']);
                 $file_url = __DIR__ . '/uploads/' . $file_name;
 

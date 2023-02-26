@@ -93,13 +93,21 @@ function create_task(mysqli $mysqli, string $task_name, int $user_id, int $proje
 }
 
 
-function is_task_exist(mysqli $mysqli, string $task, int $user_id): bool
+function is_task_exist_by_name(mysqli $mysqli, string $task, int $user_id): bool
 {
     $task = mysqli_real_escape_string($mysqli, $task);
-    $sql = "SELECT * FROM `task` WHERE `name` = '{$task}' AND `user_id` = {$user_id}";
+    $sql = "SELECT * FROM `task` WHERE `name` = '{$task}' AND `user_id` = $user_id";
     $result = mysqli_query($mysqli, $sql);
 
     return boolval(mysqli_fetch_assoc($result));
+}
+
+function get_task_by_id(mysqli $mysqli, int $task_id, int $user_id): array
+{
+    $sql = "SELECT * FROM `task` WHERE `id` = $task_id AND `user_id` = $user_id";
+    $result = mysqli_query($mysqli, $sql);
+
+    return mysqli_fetch_assoc($result);
 }
 
 
@@ -108,7 +116,7 @@ function get_user_projects(mysqli $mysqli, int $user_id): array
     $projects = [];
     
     $user_id = intval($user_id);
-    $sql = "SELECT * FROM `project` WHERE `user_id` = {$user_id}";
+    $sql = "SELECT * FROM `project` WHERE `user_id` = $user_id";
     $result = mysqli_query($mysqli, $sql);
     
     while ($project = mysqli_fetch_assoc($result)) {
@@ -119,13 +127,18 @@ function get_user_projects(mysqli $mysqli, int $user_id): array
 }
 
 
-function get_user_tasks(mysqli $mysqli, int $user_id, ?int $project_id = null, ?string $tab = null): array
+function get_user_tasks(mysqli $mysqli, int $user_id, ?bool $show_completed = false, ?int $project_id = null, ?string $tab = null): array
 {
     $tasks = [];
+
+    if (isset($tab)) {
+        $tab = mysqli_real_escape_string($mysqli, $tab);
+    } 
+
     
     $user_id = intval($user_id);
     $sql = "
-        SELECT t.name, t.dt_create, t.user_id, t.project_id, t.deadline, tf.path AS file_path
+        SELECT t.*, tf.path AS file_path
         FROM task t
         LEFT JOIN task_file tf ON tf.task_id = t.id
         WHERE t.user_id = {$user_id}
@@ -149,6 +162,10 @@ function get_user_tasks(mysqli $mysqli, int $user_id, ?int $project_id = null, ?
         }
     }
 
+    if (!$show_completed) {
+        $sql .= ' AND t.is_completed = 0';
+    }
+
     $result = mysqli_query($mysqli, $sql);
     while ($task = mysqli_fetch_assoc($result)) {
         $tasks[] = $task;
@@ -163,4 +180,25 @@ function create_task_file(mysqli $mysqli, string $path, int $task_id): bool
     $sql = "INSERT INTO `task_file` (path, task_id) VALUES ('$path', $task_id)";
 
     return mysqli_query($mysqli, $sql);
+}
+
+function update_task_status(mysqli $mysqli, int $task_id, int $new_status): bool
+{
+    $sql = "UPDATE `task` SET `is_completed` = $new_status WHERE `id` = $task_id";
+    
+    return mysqli_query($mysqli, $sql);
+}
+
+function get_tasks_by_query(mysqli $mysqli, string $task, int $user_id): array
+{
+    $tasks = [];
+
+    $sql = "SELECT * FROM `task` WHERE `user_id` = $user_id AND `name` LIKE '%{$task}%'";
+
+    $result = mysqli_query($mysqli, $sql);
+    while ($task = mysqli_fetch_assoc($result)) {
+        $tasks[] = $task;
+    }
+
+    return $tasks;
 }

@@ -9,27 +9,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
-    if (mb_strlen($login) === 0) {
-        $errors['login'] = 'Please enter a login.';
-    }
-
+    $errors['login'] = required($login);
     if (is_login_exist($mysqli, $login)) {
         $errors['login'] = 'This login is already in use.';
-    } else if (mb_strlen($email) === 0) {
-        $errors['email'] = 'Please enter an email address.';
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    }
+    
+    $errors['email'] = required($email);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Please enter a valid email address.';
     } else if (is_email_exist($mysqli, $email)) {
         $errors['email'] = 'This email is already in use.';
     }
 
-    if (mb_strlen($password) === 0) {
-        $errors['password'] = 'Please enter a password!';
-    } else if (mb_strlen($password) < 16) {
+    $errors['password'] = required($password);
+    if (mb_strlen($password) < 16) {
         $errors['password'] = 'Password must contain at least 16 characters!';
     }
 
-    if (empty($errors)) {
+    if (empty(array_filter($errors))) {
         if (create_user($mysqli, [$login, $email, $password])) {
             setcookie('register-successful', 1);
             header('Location: /login-page.php');
