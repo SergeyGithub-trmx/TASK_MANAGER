@@ -223,7 +223,7 @@ label {
     color:rgb(251, 255, 32) !important
 }
 
-.project--active a {
+.project--active {
     color:rgb(244, 66, 21) !important
 }
 
@@ -258,8 +258,22 @@ p {
 a {
     color: rgb(130, 255, 255) !important;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 17px;
     margin: 10px 10px
+}
+
+.projects_wrapper p,
+.tasks_wrapper p {
+    margin-left: 0;
+}
+
+.projects_wrapper a {
+    font-size: 24px;
+}
+
+.tasks_wrapper a {
+    font-family: "Arial";
+    font-size: 22px
 }
 
 h3 {
@@ -286,4 +300,15 @@ h3 {
 .logout:active {
     color: rgb(158, 9, 39) !important;
     transition: .2s
+}
+
+.completed {
+    font-family: "Arial" !important;
+    font-size: 22px;
+    color: #52ff26 !important
+}
+
+.is_completed_filter {
+    color: #52ff26 !important;
+    margin-right: 10px !important
 }
