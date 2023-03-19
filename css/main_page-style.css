@@ -309,6 +309,8 @@ h3 {
 }
 
 .is_completed_filter {
+    font-size: 17px;
+    font-weight: bold;
     color: #52ff26 !important;
-    margin-right: 10px !important
+    margin-left: 25px !important
 }
