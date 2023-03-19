@@ -114,15 +114,15 @@ function get_task_by_id(mysqli $mysqli, int $task_id, int $user_id): array
 function get_user_projects(mysqli $mysqli, int $user_id): array
 {
     $projects = [];
-    
+
     $user_id = intval($user_id);
     $sql = "SELECT * FROM `project` WHERE `user_id` = $user_id";
     $result = mysqli_query($mysqli, $sql);
-    
+
     while ($project = mysqli_fetch_assoc($result)) {
         $projects[] = $project;
     };
-    
+
     return $projects;
 }
 
@@ -133,9 +133,9 @@ function get_user_tasks(mysqli $mysqli, int $user_id, ?bool $show_completed = fa
 
     if (isset($tab)) {
         $tab = mysqli_real_escape_string($mysqli, $tab);
-    } 
+    }
 
-    
+
     $user_id = intval($user_id);
     $sql = "
         SELECT t.*, tf.path AS file_path

@@ -19,28 +19,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deadline = (is_null($_POST['deadline']) || mb_strlen($_POST['deadline']) === 0) ? null : trim($_POST['deadline']);
 
     $errors[INPUT_NAME] = required($task_name);
-    if (is_task_exist_by_name($mysqli, $task_name, $user_id)) {
+    if ($db->isTaskExistByName($task_name, $user_id)) {
         $errors[INPUT_NAME] = 'This task already exists.';
     }
     
-    if (!is_project_exist_by_id($mysqli, $project_id, $user_id)) {
+    if (!$db->isProjectExist($project_id, $user_id)) {
         $errors['project'] = 'This project does not exist.';
     }
 
     if (isset($deadline) && !is_date_valid($deadline)) {
-        $errors['deadline'] = 'Incorrect date format.';
+        $errors['deadline'] = 'Date format: YYYY-MM-DD.';
     }
 
     if (empty(array_filter($errors))) {
-        if (create_task($mysqli, $task_name, $user_id, $project_id, $deadline)) {
+        if ($task_id = $db->createTask($task_name, $user_id, $project_id, $deadline)) {
             
             if (!empty($_FILES['task-file']['tmp_name'])) {
                 $file_name = uniqid() . '_' . str_replace('_', '-', $_FILES['task-file']['name']);
                 $file_url = __DIR__ . '/uploads/' . $file_name;
 
                 if (move_uploaded_file($_FILES['task-file']['tmp_name'], $file_url)) {
-                    $task_id = mysqli_insert_id($mysqli);
-                    create_task_file($mysqli, $file_name, $task_id);
+                    $db->createTaskFile($file_name, $task_id);
                 }
             }
             setcookie('adding-successful', 1);
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$projects = get_user_projects($mysqli, $user_id);
+$projects = $db->getUserProjects($user_id);
 
 $page_content = include_template('task-add.php', [
     'errors' => $errors,

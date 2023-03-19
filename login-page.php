@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        if ($user = get_user_by_login($mysqli, $login)) {
+        if ($user = $db->getUserByLogin($login)) {
             if (password_verify($password, $user['password_hash'])) {
                 $_SESSION['user'] = $user;
                 header('Location: /main-page.php');

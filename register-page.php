@@ -10,14 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password'] ?? '');
 
     $errors['login'] = required($login);
-    if (is_login_exist($mysqli, $login)) {
+    if ($db->isLoginExist($login)) {
         $errors['login'] = 'This login is already in use.';
     }
     
     $errors['email'] = required($email);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Please enter a valid email address.';
-    } else if (is_email_exist($mysqli, $email)) {
+    } else if ($db->isEmailExist($email)) {
         $errors['email'] = 'This email is already in use.';
     }
 
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty(array_filter($errors))) {
-        if (create_user($mysqli, [$login, $email, $password])) {
+        if ($db->createUser([$login, $email, $password])) {
             setcookie('register-successful', 1);
             header('Location: /login-page.php');
         }
