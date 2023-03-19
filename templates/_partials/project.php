@@ -4,7 +4,7 @@
 /** @var string $tab */
 /** @var bool $show_completed */
 
-$classname = ($_GET['project'] ?? null) === $project['id'] ? ' project--active' : '';
+$classname = intval($_GET['project'] ?? null) === $project['id'] ? ' project--active' : '';
 
 ?>
 <li>
