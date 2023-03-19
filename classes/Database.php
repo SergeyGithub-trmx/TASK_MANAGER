@@ -6,7 +6,7 @@ class Database
     private static ?Database $db = null;
 
     /**
-     * Возвращает ээкземпляр класса Database
+     * Возвращает экземпляр класса Database
      * @return Database
      */
     public static function getInstance(): Database
@@ -203,5 +203,161 @@ class Database
             ->where('=', 'email', '?');
 
         return $query->exists([$email]);
+    }
+
+
+    public function createUser(array $data): bool
+    {
+        $password_hash = password_hash($data[2], PASSWORD_DEFAULT);
+        $query = (new QueryBuilder())
+            ->insert('user', ['login', 'email', 'password_hash'], array_fill(0, 3, '?'));
+
+        return boolval($this->executeQuery($query->getQuery(), [$data[0], $data[1], $password_hash]));
+    }
+
+
+    public function getUserByLogin(string $login): ?array
+    {
+        $sql = "SELECT * FROM `user` WHERE `login` = ? OR `email` = ?";
+
+        return $this->selectOne($sql, [$login, $login]);
+    }
+
+
+    public function isLoginExist(string $login): bool
+    {
+        $sql = "SELECT * FROM `user` WHERE `login` = ?";
+
+        return boolval($this->selectOne($sql, [$login]));
+    }
+
+
+    public function isEmailExist(string $email): bool
+    {
+        $sql = "SELECT * FROM `user` WHERE `email` = ?";
+
+        return boolval($this->selectOne($sql, [$email]));
+    }
+
+
+    public function createProject(string $project, int $user_id): bool
+    {
+        $sql = "INSERT INTO `project` (name, user_id) VALUES (?, ?)";
+
+        return boolval($this->executeQuery($sql, [$project, $user_id]));
+    }
+
+
+    public function isProjectExist(mixed $value, int $user_id): bool
+    { 
+        $sql = "SELECT * FROM `project`";
+
+        if (gettype($value) === "string") {
+            $sql .= " WHERE `name` = ? AND `user_id` = ?";
+        } else {
+            $sql .= " WHERE `id` = ? AND `user_id` = ?";
+        }
+
+        return boolval($this->selectOne($sql, [$value, $user_id]));
+    }
+
+
+    public function createTask(string $task_name, int $user_id, int $project_id, ?string $deadline): mixed
+    {   
+        $value = $deadline ? '"$deadline"' : null;
+        $sql = "INSERT INTO `task` (name, user_id, project_id, deadline) VALUES (?, ?, ?, ?)";
+
+        if ($this->executeQuery($sql, [$task_name, $user_id, $project_id, $deadline])) {
+            return $this->mysqli->insert_id;
+        }
+
+        return false;
+    }
+
+
+    public function isTaskExistByName(string $task, int $user_id): bool
+    {
+        $sql = "SELECT * FROM `task` WHERE `name` = ? AND `user_id` = ?";
+
+        return boolval($this->selectOne($sql, [$task, $user_id]));
+    }
+
+
+    public function getTaskById(int $task_id, int $user_id): array
+    {
+        $sql = "SELECT * FROM `task` WHERE `id` = ? AND `user_id` = ?";
+
+        return $this->selectOne($sql, [$task_id, $user_id]);
+    }
+
+
+    public function getUserProjects(int $user_id): array
+    {
+        $sql = "SELECT * FROM `project` WHERE `user_id` = ?";
+
+        return $this->select($sql, [$user_id]);
+    }
+
+
+    public function getUserTasks(int $user_id, ?bool $show_completed = false, ?int $project_id = null, ?string $tab = null): array
+    {
+        $stmt_data = [$user_id];
+
+        $sql = "
+            SELECT t.*, tf.path AS file_path
+            FROM task t
+            LEFT JOIN task_file tf ON tf.task_id = t.id
+            WHERE t.user_id = ?
+        ";
+
+        if (isset($project_id)) {
+            $sql .= " AND t.project_id = ?";
+            $stmt_data[] = $project_id;
+        }
+    
+        if (isset($tab)) {
+            switch ($tab) {
+                case 'today':
+                    $sql .= " AND t.deadline = CURDATE()";
+                    break;
+                case 'tomorrow':
+                    $sql .= " AND t.deadline = CURDATE() + INTERVAL 1 DAY";
+                    break;
+                case 'expired':
+                    $sql .= " AND t.deadline < CURDATE()";
+                    break;
+            }
+        }
+
+        if (!$show_completed) {
+            $sql .= " AND t.is_completed = 0";
+        }
+
+        return $this->select($sql, $stmt_data);
+    }
+
+
+    public function createTaskFile(string $path, int $task_id): void
+    {
+        $sql = "INSERT INTO `task_file` (path, task_id) VALUES (?, ?)";
+
+        $this->executeQuery($sql, [$path, $task_id]);
+    }
+
+
+    public function updateTaskStatus(int $task_id, int $new_status): void
+    {
+        $sql = "UPDATE `task` SET `is_completed` = ? WHERE `id` = ?";
+
+        $this->executeQuery($sql, [$new_status, $task_id]);
+    }
+
+
+    public function getTasksByQuery(string $task, int $user_id): array
+    {
+        $task = $this->mysqli->real_escape_string(str_replace('_', '\_', $task));
+        $sql = "SELECT * FROM `task` WHERE `user_id` = ? AND `name` LIKE '%{$task}%'";
+
+        return $this->select($sql, [$user_id]);
     }
 }
