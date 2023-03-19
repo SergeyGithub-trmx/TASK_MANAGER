@@ -72,7 +72,7 @@
             <?php $is_completed = boolval($_GET['show_completed'] ?? 0) ? 'show_completed=0' : 'show_completed=1'; ?>
 
             <?php $link_content = boolval($_GET['show_completed'] ?? 0) ? 'true' : 'false'; ?>
-            <a href="/main-page.php?<?= $project . $tab . $is_completed ?>" class="is_completed_filter">Show completed tasks: <?= $link_content ?></a>
+            <a href="/main-page.php?<?= $project . $tab . $is_completed ?>" class="is_completed_filter">Show completed: <?= $link_content ?></a>
         </div>
 
 

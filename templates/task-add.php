@@ -10,9 +10,12 @@
 <div class="alpha-container"></div>
 
 <div class="registration-block">
-    <form method="post" action="" enctype="multipart/form-data">
-        <h2 class="text-center">TASK</h3>
+    <form method="post" action="" enctype="multipart/form-data" style="position: relative">
+        <a href="main-page.php" style="position: absolute; top: 15px; left: 15px">
+            <img src="pictures\arrow_left.png" width="25">
+        </a>
 
+        <h2 class="text-center">TASK</h3>
         <div class="form-group name-entering">
             <input
                 class="form-control item"
@@ -55,7 +58,7 @@
                     type="text"
                     name="deadline"
                     value="<?= $_POST['deadline'] ?? '' ?>"
-                    placeholder="Deadline"
+                    placeholder="Deadline: YYYY-MM-DD"
                 >
 
                 <?php if (isset($errors['deadline'])): ?>

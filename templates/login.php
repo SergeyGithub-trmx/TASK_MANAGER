@@ -41,7 +41,7 @@
         </div>
 
         <p class="account-existed-check" style="margin: 10px 0 0 0;">
-            Don't have an account?
+            Don't have an account? Click here!
         </p>
 
         <a href="./register-page.php" style="margin: 20px 0 -10px 0;">Create!</a>

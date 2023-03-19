@@ -73,7 +73,7 @@
         </div>
 
         <p class="account-existed-check" style="margin: 10px 0 0 0;">
-            Already have an account?
+            Already have an account? Go here!
         </p>
 
         <a href="./login-page.php" style="margin: 20px 0 -10px 0;">Log in</a>

@@ -8,9 +8,12 @@
 <div class="alpha-container"></div>
 
 <div class="registration-block">
-    <form method="post" action="">
-        <h2 class="text-center">PROJECT</h3>
+    <form method="post" action="" style="position: relative">
+        <a href="main-page.php" style="position: absolute; top: 15px; left: 15px">
+            <img src="pictures\arrow_left.png" width="25">
+        </a>
 
+        <h2 class="text-center">PROJECT</h3>
         <div class="form-group">
             <input class="form-control item"
                 type="text"
