@@ -10,9 +10,9 @@ if (!isset($_SESSION['user'])) {
 $user_id = intval($_SESSION['user']['id']);
 $task_id = intval($_GET['task'] ?? 0);
 
-if ($task = $db->getTaskById($task_id, $user_id)) {
+if ($task = get_task_by_id($mysqli, $task_id, $user_id)) {
     $new_task_status = intval($task['is_completed']) ? 0 : 1;
-    $db->updateTaskStatus($task_id, $new_task_status);
+    update_task_status($mysqli, $task_id, $new_task_status);
 
     $ref = $_SERVER['HTTP_REFERER'] ?? '\index.php';
     header("Location: $ref");

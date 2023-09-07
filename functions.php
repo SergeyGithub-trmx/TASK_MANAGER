@@ -30,12 +30,3 @@ function esc(string $value): string
 {
     return htmlspecialchars($value);
 }
-
-function required(string $value): ?string
-{
-    if (mb_strlen($value) === 0) {
-        return 'This is a required field.';
-    }
-
-    return null;
-}

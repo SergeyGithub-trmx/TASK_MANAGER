@@ -5,8 +5,8 @@ require_once('init.php');
 $user_id = intval($_SESSION['user']['id']);
 $query = $_GET['q'] ?? '';
 
-$projects = $db->getUserProjects($user_id);
-$tasks = $db->getTasksByQuery($query, $user_id);
+$projects = get_user_projects($mysqli, $user_id);
+$tasks = get_tasks_by_query($mysqli, $query, $user_id);
 
 $page_content = include_template('main.php', [
     'tasks' => $tasks,

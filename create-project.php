@@ -16,13 +16,14 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $project_name = trim($_POST[INPUT_NAME] ?? '');
 
-    $errors[INPUT_NAME] = required($project_name);
-    if ($db->isProjectExist($project_name, $user_id)) {
+    if (mb_strlen($project_name) === 0) {
+        $errors[INPUT_NAME] = 'Please enter a name of your project.';
+    } else if (is_project_exist_by_name($mysqli, $project_name, $user_id)) {
         $errors[INPUT_NAME] = 'This project already exists.';
     }
-    
-    if (empty(array_filter($errors))) {
-        if ($db->createProject($project_name, $user_id)) {
+
+    if (empty($errors)) {
+        if (create_project($mysqli, $project_name, $user_id)) {
             setcookie('adding-successful', 1);
             header('Location: /main-page.php');
         }
